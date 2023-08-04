@@ -1,26 +1,26 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import "./ExpenseForm.css";
+import './ExpenseForm.css';
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   /* 첫 번째 방법 */
-  const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredAmount, setEnteredAmount] = useState("");
-  const [enteredDate, setEnteredDate] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState('');
+  const [enteredDate, setEnteredDate] = useState('');
 
   const onTitleChangeHandler = (event) => {
     setEnteredTitle(event.target.value);
-    console.log(enteredTitle);
+    // console.log(enteredTitle);
   };
 
   const onAmountChangeHandler = (event) => {
     setEnteredAmount(event.target.value);
-    console.log(enteredAmount);
+    // console.log(enteredAmount);
   };
 
   const onDateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
-    console.log(enteredDate);
+    // console.log(enteredDate);
   };
 
   /* 두 번째 방법 이전 상태에 의존해야 하는 경우에 사용 (예시: 카운터)
@@ -59,34 +59,68 @@ const ExpenseForm = () => {
   };
   */
 
+  /* 또 다른 방법 ( 대안 )
+  const inputChangeHandler = (identifier, value) => {
+    if (identifier === "title") {
+      setEnteredTitle(value);
+    } else if (identifier === "date") {
+      setEnteredDate(value);
+    } else {
+      setEnteredAmount(value);
+    }
+  }; */
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+
+    const expenseData = {
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: new Date(enteredDate),
+    };
+
+    // console.log(expenseData);
+
+    props.onSaveExpenseData(expenseData);
+    setEnteredTitle('');
+    setEnteredAmount('');
+    setEnteredDate('');
+  };
+
   return (
-    <form>
-      <div className="new-expense__controls">
-        <div className="new-expense__control">
+    <form onSubmit={onSubmitHandler}>
+      <div className='new-expense__controls'>
+        <div className='new-expense__control'>
           <label>Title</label>
-          <input type="text" onChange={onTitleChangeHandler} />
+          <input
+            type='text'
+            value={enteredTitle} // 양방향 바인딩(submit 후에 setEnteredTitle, Amount, Date를 공백으로 세팅 가능)
+            onChange={onTitleChangeHandler}
+          />
         </div>
-        <div className="new-expense__control">
+        <div className='new-expense__control'>
           <label>Amount</label>
-          <inpu
-            type="number"
-            min="0.01"
-            step="0.01"
+          <input
+            type='number'
+            min='0.01'
+            step='0.01'
+            value={enteredAmount}
             onChange={onAmountChangeHandler}
           />
         </div>
-        <div className="new-expense__control">
+        <div className='new-expense__control'>
           <label>Date</label>
           <input
-            type="date"
-            min="2019-01-01"
-            max="2023-12-31"
+            type='date'
+            min='2019-01-01'
+            max='2023-12-31'
+            value={enteredDate}
             onChange={onDateChangeHandler}
           />
         </div>
       </div>
-      <div className="new-expense__actions">
-        <button type="submit">Add Expense</button>
+      <div className='new-expense__actions'>
+        <button type='submit'>Add Expense</button>
       </div>
     </form>
   );
