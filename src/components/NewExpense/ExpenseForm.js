@@ -10,17 +10,14 @@ const ExpenseForm = (props) => {
 
   const onTitleChangeHandler = (event) => {
     setEnteredTitle(event.target.value);
-    // console.log(enteredTitle);
   };
 
   const onAmountChangeHandler = (event) => {
     setEnteredAmount(event.target.value);
-    // console.log(enteredAmount);
   };
 
   const onDateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
-    // console.log(enteredDate);
   };
 
   /* 두 번째 방법 이전 상태에 의존해야 하는 경우에 사용 (예시: 카운터)
